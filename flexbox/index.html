@@ -1,0 +1,652 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flexbox</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="419a7a8b-7241-41c1-ad56-11bf6f4d9c6d" class="page sans"><header><h1 class="page-title">Flexbox</h1></header><div class="page-body"><p id="9322e895-db02-4201-8093-4382a2eb5ad3" class="block-color-pink"><time>@26/12/2020</time> </p><p id="4efa4940-5a33-48a1-b2e2-234e8c4ada27" class="">
+</p><p id="21dfad36-97d2-45bf-985f-9d90faf2a770" class="">L&#x27;idea fondamentale dietro al concetto di <strong>Flexbox</strong> è quella di rendere un determinato <em>container</em> capace di alterare la disposizione degli <em>items (</em>elementi, oggetti) in esso contenuti<em>,</em> affinché possano essere gestiti al meglio entro lo spazio disponibile (spazio del container). La particolarità di flexbox è quella di <strong>rendere i layout </strong><strong><em>flessibili</em></strong>, quindi capaci di assumere un comportamento dinamico in base allo spazio disponibile, più genericamente, al ridimensionamento della finestra.</p><p id="fd630bd0-ffc8-4d45-a108-c8f8b0e8a707" class="">Possiamo usare <em><strong>flexbox</strong></em> al posto di <strong><em>float</em></strong> oppure al posto di <strong><em>grid</em></strong>? No, non si può parlare in termini di sostituzione poiché queste tre proprietà, anche se effettivamente sono state implementate via via negli anni, <strong>non sono interscambiabili</strong>. Piuttosto dovremmo parlare in termini di <strong>adeguatezza</strong> di una proprietà piuttosto che un&#x27;altra, <strong>in base al layout</strong> che vogliamo andare a realizzare.</p><p id="d078ce62-b10c-49d8-84de-1b981e7ee899" class="">Flexbox è preferibile, per esempio, quando vogliamo creare dei layout distribuiti su un&#x27;unica dimensione: immaginiamo una linea immaginaria orizzontale (l&#x27;asse delle x), formata da più oggetti, uno accanto all&#x27;altro, dove possiamo decidere se lasciare la riga procedere sullo stesso piano (<em>no-wrap</em>) oppure se, una volta raggiunto il margine (riempendo quindi tutto lo spazio disponibile), distribuire gli stessi oggetti su piani diversi (<em>wrap</em>). Questo è il comportamento base, default. Possiamo certamente interferire su questa disposizione e personalizzare a piacimento. </p><p id="5f7bb4e6-2353-40b1-8cf1-f751277ad94b" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="74bc5255-420b-4215-bcd6-21e8872ce128"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>Flexbox</strong> è usato in contesti di <em>small-layout</em> o di <em>components. </em>Il motivo è dato dalla migliore gestione dei layout offerto dalla proprietà <em>Grid</em> che invece è preferita per la gestione di <em>layout large-scale</em>. Diciamo che flexbox opera ad una dimensione, a differenza di <em>grid</em> che lavora su un piano a due dimensioni.</div></figure><p id="61006de2-b75a-4bdb-ae9a-c4ebea21e1bf" class="">
+</p><hr id="dde02d93-a736-4ed0-a8aa-63eff510382e"/><h2 id="78467236-65e3-44e6-9ed3-ffe884f3ede1" class="">Il modello Flex Container</h2><p id="70125a1b-8928-4286-b692-873aebada48c" class="">Riferimento virtuale utilizzato per intendere la disposizione gli elementi. Principalmente formato da un contenitore (parent) e più items (children). Bisogna immaginare il primo come un box la cui disposizione (<em>flow) </em>scorre in modo diverso dal layout standard: se per quest&#x27;ultimo la disposizione degli elementi procede secondo il flusso direzionale degli elementi <em>block</em> e <em>inline</em>, in un contenitore flessibile non è così:</p><figure id="e166ab8b-9392-4fb2-bb19-5a0164ffd2b0" class="image"><a href="flexbox/flex_terms.png"><img style="width:563px" src="flexbox/flex_terms.png"/></a><figcaption><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox">Immagine tratta da MDN Web Docs</a></figcaption></figure><p id="3b232408-aa8e-4429-a618-1f242f2c7e8f" class="">
+</p><p id="fa3dbbe5-242f-4084-bc4f-8426605660fe" class="">qui il flusso degli elementi segue principalmente due coordinate: la <strong>Main-axis,</strong> una retta che procede da sinistra verso destra, interpretabile come l&#x27;<em>asse delle</em><strong><em> </em></strong><em>x;</em> la <strong>Cross-axis</strong><em><strong> </strong></em>che<em> </em>procede dall&#x27;alto al basso, interpretabile come l&#x27;<em>asse delle</em><strong><em> </em></strong><em>y</em>.
+</p><p id="2d4b1137-ecf7-4304-a4eb-fc05272f000e" class="">Secondo questo modello, un <strong>container flessibile può espandere gli oggetti in esso contenuti in modo tale da poterli adattare entro lo spazio disponibile</strong>, restringendoli, allargandoli e prevenendo l&#x27;<em>overflow</em> del contenuto. Tutto questo agendo direttamente sul container, con le proprietà proprie per il container (<em>parent)</em>, o sugli items (<em>children</em>), singolarmente o globalmente.</p><p id="25806f1f-ea11-48ec-8553-456ea00941f1" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5b78df74-efc7-48da-a162-a37c7829a97e"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">La <em>pipe</em> (barra verticale) è da intendere come un classico <em>or</em>. Verrà usata seguendo la sintassi formale usata nelle documentazioni CSS.</div></figure><p id="31ff738e-0f97-4735-ab7d-06c609e0eaf4" class="">
+</p><hr id="381ab6e8-2ed4-4ee2-853c-d7726edbd6aa"/><h2 id="b67bb087-816c-4f15-b986-7309c424cb34" class="">Proprietà del <em>Container</em> (parent)</h2><h3 id="6fc444b6-3848-423c-b952-5cea74e63f2c" class=""><code>display: flex;</code></h3><p id="2bc139fd-08b2-43ba-9137-8e8e0a3ca640" class="">La prima e indispensabile proprietà di ogni container flexbox è per l&#x27;appunto <code><em>display: flex </em></code><em>(default), </em>questa ci permette di attribuire ad un determinato elemento le dovute caratteristiche, ne definisce per tanto il contenitore come flessibile. La proprietà accetta anche il valore <code>inline-flex</code><em> </em>che si comporta come gli altri elementi html inline.</p><pre id="aea06462-13a6-4a02-bb44-49de89041dbc" class="code"><code>display: flex | inline-flex;</code></pre><p id="a88cb344-90c8-4130-962d-aff1b77de1b5" class="">
+</p><h3 id="6936f8f4-44b5-4a58-8a2d-53ca27599979" class=""><code>flex-direction: row</code></h3><p id="604f243b-d4d7-4ed9-bf83-c5bd3f9330a1" class="">Stabilisce quale dei due modelli di flusso degli items applicare al contenitore, se la <em>Main-axis o </em>la <em>Cross-axis.</em> Il valore standard è <code>row</code> e ne dispone gli elementi da sinistra verso destra. <code>column</code> d&#x27;altra parte li dispone dall&#x27;alto verso il basso. Le varianti <code>reverse-row</code> e <code>reverse-column</code> invertono l&#x27;ordine predisposto.</p><pre id="7e254a40-6723-46cd-ad3d-6fc48e439075" class="code"><code>flex-direction: row | column | reverse-row | reverse-column;</code></pre><p id="7431be6c-596c-485d-9d34-c7b435b71b29" class="">
+</p><h3 id="721692ff-fadd-4e8b-9edd-1bba8203c3f5" class=""><code>flex-wrap: no-wrap;</code></h3><p id="cf4621e5-29a3-4b89-b8ea-fa943a8611a3" class="">Permette di disporre gli items del container in più linee. Di default il comportamento di un box flessibile prevede l&#x27;inserimento di tutti gli oggetti in esso contenuti in un&#x27;unica riga. Con la proprietà <code>flex: wrap</code> possiamo annullare questa forzatura e disporre gli elementi secondo un flusso più naturale, disponendoli su più righe, rispettandone le proprietà di <em>width </em>e procedendo<em> </em>dall&#x27;alto verso il basso</p><p id="c98ce7fb-79c6-41b4-8eda-9932e2d81bec" class=""> Il valore di default, come si può intuire, è <code>flex-wrap: no-wrap</code>. Disponibile anche <em>reverse </em>che ne inverte la disposizione.</p><pre id="34c233c6-d669-4f17-ac91-3ff9906996e3" class="code"><code>flex: no-wrap | wrap | wrap-reverse;</code></pre><p id="b4f2b5a0-5776-4dcb-8c73-db34fe494bbb" class="">
+</p><h3 id="5534a8a2-aa9d-44c1-85d9-c2b40abadada" class=""><code>flex-flow: row no-wrap</code></h3><p id="74d70b57-c3f2-40da-97fa-cda4af2d2a70" class="">Proprietà <em>shorthand</em> che combina i precedenti <code>flex-direction</code> e <code>flex-wrap</code>.</p><pre id="8823557c-309e-4094-ad8b-7b63e43f7ac1" class="code"><code>flex-flow: &lt;&#x27;flex-direction&#x27;&gt; || &lt;&#x27;flex-wrap&#x27;&gt;</code></pre><p id="8b6beac4-30f1-45da-a10a-a16052cf6310" class="">
+</p><h3 id="00878718-7ac6-4ac4-b49a-69b0b0d85279" class=""><code>justify-content: flex-start</code></h3><p id="2e721656-37c1-442d-aa20-eef08f77b48d" class="">Questa è una delle tre principali proprietà dei contenitori flessibili. Definisce l&#x27;allineamento degli items lungo la <em>main-axis</em> e ci aiuta a gestire lo spazio che intercorre tra essi, qualora vi sia spazio vuoto rimanente o quando le loro dimensioni non sono propriamente flessibili (<em>flexible</em>).</p><p id="6375c215-11b9-4fb6-9d3b-39657e3a7bd1" class="">Immaginiamo che con <code>justify-content</code><strong> </strong>gli oggetti si allineano seguendo l&#x27;asse orizzontale:</p><ul id="8214d279-4797-4294-abf5-9af8b65538ea" class="bulleted-list"><li><code>flex-start</code> il valore di default, giustifica il contenuto a sinistra;</li></ul><ul id="2d2333f7-ae4f-4340-beef-f75a5caf246a" class="bulleted-list"><li><code>flex-end</code> giustifica il contenuto a destra;</li></ul><ul id="bff093f6-4210-4064-91b7-4fef9af3c938" class="bulleted-list"><li><code>start</code> giustifica il contenuto a sinistra, secondo la <em>writing-mode</em></li></ul><ul id="09745e65-e342-4616-8986-07d03deb6566" class="bulleted-list"><li><code>end</code> giustifica a destra, secondo la <em>writing-mode</em></li></ul><ul id="55dcef93-f919-4718-b0f0-d8a5bd9931ad" class="bulleted-list"><li><code>center</code> giustifica il contenuto al centro</li></ul><ul id="1428c653-f9bd-48de-89dc-a103fe5f316a" class="bulleted-list"><li><code>space-between</code> giustifica il contenuto a distanza eguale, eccezione per il primo e ultimo item</li></ul><ul id="953a96dd-8283-49b4-92c6-6619a0999d6b" class="bulleted-list"><li><code>space-around</code> giustifica il contenuto a distanza eguale, inclusi primo e ultimo</li></ul><ul id="4d38910b-bb44-422a-941a-55a2a95c0246" class="bulleted-list"><li><code>space-evenly</code> giustifica il contenuto fornendo una sorta di fix alla distanza dimezzata del primo e ultimo elemento del valore offerto da <code>space-around</code></li></ul><p id="4a5a5fdc-bd82-4242-913f-f380db380ae2" class="">
+</p><h3 id="091da24d-343a-461b-bcb0-100559656b11" class=""><code>align-items: stretch</code></h3><p id="1207b8b4-812f-4d53-94ee-ca1abe4717d5" class="">La seconda proprietà principale dei contenitori flessibili, definisce l&#x27;allineamento degli items lungo la <em>cross-axis</em>.</p><p id="dbe8f0a1-694f-45b5-8c39-018fceb254b3" class="">Il suo funzionamento è analogo a quello di <code>justify-content</code> e possiamo immaginarlo agire lungo l&#x27;asse verticale.</p><ul id="a75bf618-9d55-4793-a4b5-7a21d0bcdf49" class="bulleted-list"><li><code>stretch</code> il valore di default, allunga gli items per tutta l&#x27;altezza del contenitore (attenzione alle dimensioni del singolo item, possono alterare questa proprietà)</li></ul><ul id="fce88920-c13b-4b5d-9189-4aa7c7090f44" class="bulleted-list"><li><code>flex-start</code> come <code>start</code> e <code>self-start</code> allineano gli items a sinistra e secondo la <em>writing mode</em></li></ul><ul id="4712795e-82df-4f97-9d8f-47679e2b8573" class="bulleted-list"><li><code>flex-end</code> come <code>end</code> e <code>self-end</code> allineano gli items a destra e secondo la <em>writing mode</em></li></ul><ul id="9bdcdfa9-6b48-4ebf-b21f-2c57598afe00" class="bulleted-list"><li><code>center</code> centra gli items</li></ul><ul id="5c02db48-12a3-41c2-8191-a3696cb70e75" class="bulleted-list"><li><code>baseline</code> l&#x27;allineamento segue l&#x27;impostazione della <em>baseline </em>(gli oggetti quindi seguiranno la formattazione in corso e non verranno spinti al bordo superiore)</li></ul><ul id="e48f7fac-c86a-43a3-9dca-c88136d41cbb" class="bulleted-list"><li><code>safe</code> e <code>unsafe</code> vengono usati insieme ai valori sopra, e ne controllano l&#x27;<em>overflow</em></li></ul><p id="ce2c9073-4d3c-47ea-96ea-69e1da02437f" class="">
+</p><h3 id="aba36a06-7337-4163-a253-3274548ec24d" class=""><code>align-content: normal</code></h3><p id="4864e37d-8b12-4840-84fd-a70d43600dd7" class="">Terza e ultima proprietà dei container flessibili, ci permette di allineare gli items intesi come blocco, gestendo lo spazio extra del cross-axis.</p><p id="8bb6c8d2-0425-4acc-9dbb-c7f4d2266826" class="">Il suo funzionamento è analogo a <code>justify-content</code>ma agisce per l&#x27;appunto sul cross-axis.</p><ul id="349c0171-a5c1-4376-996f-e2884356aeaa" class="bulleted-list"><li><code>normal</code> valore di default, il contenuto viene posizionato alla posizione di default</li></ul><ul id="521e46ed-6006-4e20-b66a-6e94330e2ad2" class="bulleted-list"><li><code>flex-start</code> e <code>start</code> il contenuto viene posizionato in alto e secondo la <em>writing mode</em></li></ul><ul id="3f54bc19-ec37-466f-98f0-e0a73bd9ef31" class="bulleted-list"><li><code>flex-end</code> e <code>end</code> il contenuto viene posizionato in basso e secondo la <em>writing mode</em></li></ul><ul id="5a12390e-3044-4123-bf43-8a8f03b09e8c" class="bulleted-list"><li><code>center</code> il contenuto viene centrato</li></ul><ul id="963028fb-5b9a-42cf-82d0-5aedd27f652e" class="bulleted-list"><li><code>space-between</code> giustifica il contenuto a distanza eguale, eccezione per il primo e ultimo item</li></ul><ul id="088610ab-22e7-4938-8816-5ee362242117" class="bulleted-list"><li><code>space-around</code> giustifica il contenuto a distanza eguale, inclusi primo e ultimo</li></ul><ul id="6bdc6989-c123-4140-9489-0a5eafe91d88" class="bulleted-list"><li><code>space-evenly</code> giustifica il contenuto fornendo una sorta di fix alla distanza dimezzata del primo e ultimo elemento del valore offerto da <code>space-around</code></li></ul><ul id="396f0b17-cec2-4c2c-9a80-80474be295f1" class="bulleted-list"><li><code>stretch</code> il contenuto viene allungato, ricomprendo per intero il contenitore</li></ul><ul id="000bba0e-69a2-412c-b90b-4574b716ffb7" class="bulleted-list"><li><code>safe</code> e <code>unsafe</code> vengono usati insieme ai valori sopra, e ne controllano l&#x27;<em>overflow</em></li></ul><p id="e4309e2e-294e-475e-92eb-5facdac92dc1" class="">
+</p><hr id="ad15ebe8-3464-4a0a-b3a9-6818a19917e6"/><h2 id="808fec0a-3213-4663-84d4-13d1af48d38f" class="">Proprietà degli <em>Items</em> (children)</h2><p id="86f3a68a-cf92-4108-b8b0-6e8c4e0e74e6" class="">Per la gestione degli oggetti, che il container ospita, esistono una serie di proprietà che ne impostano l&#x27;ordine e la possibilità di adattarsi a delle dimensioni più o meno specifiche. Per comprendere bene queste proprietà (principalmente <em>grow, shrink e basis</em>) occorre prestare attenzione al concetto di <em>available space</em> (spazio disponibile, o spazio vuoto). Queste ultime tre proprietà dipendono direttamente da questo.</p><p id="9a1f7657-ece8-4d90-aa2f-9bdf36927991" class="">
+</p><h3 id="e4e486b5-9857-42ae-9adf-c0b797a54477" class=""><code>order: 1</code></h3><p id="3563b980-e276-43d5-b577-fbca33a52a41" class="">Bisogna una premessa: di default gli items di un contenitore (flessibile incluso) vengono disposti secondo l&#x27;ordine del sorgente HTML. Tramite la proprietà <code>order</code> possiamo interrompere questo <em>behaviour</em> di base, impostando l&#x27;ordine dei vari items secondo piacimento. I valori accettati vanno dal positivo al negativo, dove il primo alloca gli elementi in coda e il secondo in testa, al container.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="16b03742-7bb0-4bc8-a291-cae3b07c8ffd"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">La seguente proprietà va assegnata al singolo <em>item</em>.</div></figure><p id="28fcabd3-e82c-4766-ab70-9eb7d9833bd6" class="">
+</p><h3 id="f8d0be71-4c1c-4638-9c44-3d8373d654fa" class=""><code>flex-grow: 0</code></h3><p id="36f200b9-962d-48bf-8952-07ce346c973c" class="">Dispone un item della possibilità di allargarsi in base allo spazio disponibile. Il valore ad esso assegnato verrà usato come proporzione per gli altri items dello stesso container, di default è 0 e non accetta valori negativi.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="42fa9656-b390-47b5-8067-37e82721d4e3"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">La seguente proprietà è intesa per il singolo <em>item</em>. Ma se assegniamo la proprietà <code>flex-grow: 1</code> a tutti gli items lo spazio &#x27;vuoto&#x27; verrà ridistribuito tra tutti.</div></figure><p id="d39b4d93-b560-4176-b3ac-46356f6559f3" class="">
+</p><h3 id="dc4ec08c-b59a-481c-bfc2-59d04e2987b6" class=""><code>flex-shrink: 1</code></h3><p id="bee7d94a-fb2d-4876-aa2f-5b37f1f1304d" class="">Si comporta all&#x27;opposto di <code>flex-grow</code>, piuttosto che crescere, la proprietà permette ad un <em>item </em>di restringersi se necessario. Il valore assegnato si comporta anche in questo caso da valore di riferimento proporzionale. Non accetta negativi.</p><p id="522ed6a0-5883-40e9-abf2-7d16d78b6010" class="">
+</p><h3 id="549d092e-36e0-4f16-89cb-2425d52a5482" class=""><code>flex-basis: auto</code></h3><p id="f579c3f1-6e1e-467a-8b01-d9bccdc368d7" class="">Imposta la grandezza default di un items prima che lo spazio venga ridistribuito. Accetta valori in formato px, %, ecc... o una <em>keyword</em>. </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d5d84637-11b7-4b8b-9daf-83238d2cb2d7"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Questa proprietà cambia in base all&#x27;asse di riferimento, ovvero cambia in base all&#x27;impostazione della proprietà <code>flex-direction</code>. Per esempio in caso di <em>row</em>, questa si comporterà come <em>width</em> e in caso di <em>column</em> come <em>height</em>. Inoltre essa sovrascriverà qualunque altra definizione di <em>width</em> ed <em>height</em>.</div></figure><p id="96e54b3c-bd93-4604-b34a-2ad503ea5a8f" class="">
+</p><h3 id="c73d266b-b1c6-415c-8961-33c7c91f585a" class=""><code>flex: none</code></h3><p id="ce1d9aac-a654-41d7-a21a-62cadf5c5999" class="">Nient&#x27;altro che la <em>shorthand</em> delle tre proprietà sopra, preferibile da usare.</p><p id="da880c1d-a7fd-49cc-902d-7d4e0d200a83" class="">
+</p><h3 id="d079e851-c30f-4567-8770-2ae06c46d0b0" class=""><code>align-self</code></h3><p id="b993ae24-252c-47ca-831b-256c589df5cc" class="">Permette di interrompere il <em>behaviour</em> di base di un determinato item e di riassegnare ad esso un posizionamento arbitrario. Accetta gli stessi valori della proprietà <code>align-items</code> dei container.</p><p id="d4a48b7a-092a-4dc5-8dc0-129cd69b50de" class="">
+</p><p id="1f2d774e-a2b8-497a-845e-b08d1aa1b6f0" class="">Buon coding,</p><p id="01caf32d-792d-41b7-9413-fef768c845ff" class="">Casimiro.</p><p id="e3628b34-85ce-4ff4-8c6b-19d4e8f56814" class="">
+</p><p id="cd3cece6-c47e-4f6e-98e4-81a506f3b2eb" class="">
+</p><ul id="0b2c327e-327e-4e5e-9782-b6acc5463c54" class="toggle"><li><details open=""><summary>Bibliografia</summary><p id="636b4419-1127-4d6e-874f-013f0f1f09fe" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox">https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox</a></p><p id="6c562e81-8675-4f94-af0f-62d0939d78c0" class=""><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">https://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></p><p id="6e148f89-02a4-4d81-a6ba-dacd904736b2" class=""><a href="https://www.internetingishard.com/html-and-css/flexbox/">https://www.internetingishard.com/html-and-css/flexbox/</a></p><p id="91c8fa51-012c-409b-9574-c15600abf800" class=""><a href="https://www.w3schools.com/css/css3_flexbox.asp">https://www.w3schools.com/css/css3_flexbox.asp</a></p><p id="87ef3284-2431-4a96-80ed-303b50cf09c0" class=""><a href="https://itnext.io/learn-css-flexbox-with-interactive-playground-17bcf6aeb4b4">https://itnext.io/learn-css-flexbox-with-interactive-playground-17bcf6aeb4b4</a></p><p id="e3ee01d6-4faf-4377-953b-b3c9144f10aa" class="">
+</p></details></li></ul><ul id="45621ee5-c6e3-4d6b-b41e-0bef8a302ff7" class="toggle"><li><details open=""><summary>Link utili</summary><p id="8e5e0b74-9473-49b8-b55d-cf56fcfcc170" class=""><a href="https://the-echoplex.net/flexyboxes/">https://the-echoplex.net/flexyboxes/</a></p><p id="11bf764b-b314-4137-87b3-60edf36f826d" class=""><a href="https://demo.agektmr.com/flexbox/">https://demo.agektmr.com/flexbox/</a></p><p id="50588a94-fd1c-4427-9368-0b788523bb98" class=""><a href="http://www.flexboxdefense.com/">http://www.flexboxdefense.com/</a></p><p id="78dfbee1-86f6-4ec9-95a6-1960b543c6cd" class=""><a href="https://flexboxfroggy.com/#it">https://flexboxfroggy.com/</a></p><p id="2e02454c-0cf4-437a-90df-55ce7a7cfe6d" class="">
+</p></details></li></ul></div></article></body></html>
